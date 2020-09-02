@@ -1,0 +1,25 @@
+name: Validate Workflow Status
+description: Checks another workflow's status
+inputs:
+  token:
+    description: Your Github token
+    required: true
+  workflow:
+    description: The name of the workflow to check
+    required: true
+  branch:
+    description: The workflow branch to validate against
+    required: false
+    default: main
+  status:
+    description: The status to match on
+    required: false
+    default: success
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    ACTION_TOKEN: ${{ inputs.token }}
+    ACTION_WORKFLOW: ${{ inputs.workflow }}
+    ACTION_BRANCH: ${{ inputs.branch }}
+    ACTION_STATUS: ${{ inputs.status }}

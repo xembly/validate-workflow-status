@@ -1,0 +1,9 @@
+# user files
+.notes
+
+# dotnet files
+bin/
+obj/
+.vs/
+*ncrunch*
+*.opencover.xml

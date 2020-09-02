@@ -1,0 +1,37 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Global dotnet rules
+dotnet_diagnostic.RCS1090.severity = none  # RCS1090: Call 'ConfigureAwait(false)'.
+dotnet_diagnostic.CA1031.severity  = none  # CA1031: Do not catch general exception types
+
+[*.{cs}] # See: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-naming-conventions
+dotnet_naming_rule.private_members_with_underscore.symbols  = private_fields
+dotnet_naming_rule.private_members_with_underscore.style    = prefix_underscore
+dotnet_naming_rule.private_members_with_underscore.severity = suggestion
+
+dotnet_naming_symbols.private_fields.applicable_kinds           = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers         = readonly
+
+dotnet_naming_style.prefix_underscore.capitalization = camel_case
+dotnet_naming_style.prefix_underscore.required_prefix = _
+
+[*.{json,yml,yaml,csproj}]
+indent_size = 2
+indent_style = space
+
+[*.md]
+max_line_length = 0
+trim_trailing_whitespace = false
+
+[Dockerfile]
+indent_size = 4
+indent_style = space

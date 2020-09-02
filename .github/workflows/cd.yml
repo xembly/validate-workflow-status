@@ -1,0 +1,68 @@
+name: cd
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get version from tag
+        id: version
+        shell: bash
+        run: echo ::set-output name=current::${GITHUB_REF#refs/tags/v}
+      - name: Validate Status
+        uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: ci
+      - name: Get changelog entry
+        id: changelog
+        uses: aroemen/changelog-reader-action@v2
+        with:
+          validation_depth: 10
+          version: ${{ steps.version.outputs.current }}
+      - name: Rollback tag
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' 'https://github.com/${{ github.repository }}.git'
+          git tag -d v${{ steps.version.outputs.current }}
+          git push origin :refs/tags/v${{ steps.version.outputs.current }}
+          echo "::error ::Validation Failed. Removing tag..."
+          exit 1
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get version from tag
+        id: version
+        shell: bash
+        run: echo ::set-output name=current::${GITHUB_REF#refs/tags/v}
+      - name: Get changelog entry
+        id: changelog
+        uses: aroemen/changelog-reader-action@v2
+        with:
+          validation_depth: 10
+          version: ${{ steps.version.outputs.current }}
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.current }}
+          release_name: Release v${{ steps.version.outputs.current }}
+          prerelease: ${{ steps.changelog.outputs.status == 'prereleased' }}
+          body: ${{ steps.changelog.outputs.changes }}
+      - name: Point major version tag to release
+        shell: bash
+        run: |
+          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' 'https://github.com/${{ github.repository }}.git'
+          VERSION=`echo ${{ steps.version.outputs.current }} | awk -F. '{print $1}'`
+          git tag -f v$VERSION
+          git push -f origin v$VERSION
