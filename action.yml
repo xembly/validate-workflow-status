@@ -1,4 +1,7 @@
 name: Validate Workflow Status
+branding:
+  icon: check-circle
+  color: gray-dark
 description: Checks another workflow's status
 inputs:
   token:
