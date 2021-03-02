@@ -11,28 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET Core v3.1.301
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.1.301
-      - name: Setup .NET Core v5.0.103
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.103
-      - name: Test with dotnet
-        run: dotnet test -c Release /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line /p:CoverletOutputFormat=opencover
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./ValidateWorkflow.Tests/coverage.opencover.xml
-          flags: unittests
-          fail_ci_if_error: true
-
-  scan:
-    runs-on: ubuntu-latest
-    steps:
       - name: Setup .NET Core v3.1.301
         uses: actions/setup-dotnet@v1
         with:
