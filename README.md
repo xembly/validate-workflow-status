@@ -2,7 +2,10 @@
 
 ![CI](https://github.com/xembly/validate-workflow-status/workflows/ci/badge.svg)
 ![CD](https://github.com/xembly/validate-workflow-status/workflows/cd/badge.svg)
-[![codecov](https://codecov.io/gh/xembly/validate-workflow-status/branch/main/graph/badge.svg)](https://codecov.io/gh/xembly/validate-workflow-status)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=xembly_validate-workflow-status&metric=coverage)](https://sonarcloud.io/dashboard?id=xembly_validate-workflow-status)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=xembly_validate-workflow-status&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=xembly_validate-workflow-status)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=xembly_validate-workflow-status&metric=security_rating)](https://sonarcloud.io/dashboard?id=xembly_validate-workflow-status)
+
 
 A Github Action that validates another workflow's status. For instance, validating build/test workflow before a workflow to create a release. See [change log](https://github.com/xembly/validate-workflow-status/blob/master/CHANGELOG.md) for all the release notes.
 
