@@ -12,7 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
+      - name: Setup .NET Core v3.1.301
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+      - name: Setup .NET Core v5.0.103
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.103
@@ -29,7 +33,11 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup .NET Core
+      - name: Setup .NET Core v3.1.301
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+      - name: Setup .NET Core v5.0.103
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.103
